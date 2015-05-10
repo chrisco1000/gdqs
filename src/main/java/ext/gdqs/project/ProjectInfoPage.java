@@ -138,13 +138,6 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
         uri.setRequired(true);
         uri.add(new URIValidator());
         form.add(uri);
-        //CheckBox defaultChk = new CheckBox("default", new PropertyModel(this, "defaultWs"));
-        //form.add(defaultChk);
-        //defaultChk.setEnabled(isFullAdmin);
-
-        //stores
-//        StorePanel storePanel = new StorePanel("storeTable", new StoreProvider(ws), false);
-//        form.add(storePanel);
         
         add(dialog = new GeoServerDialog("dialog"));
 
