@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="gdqs" default="build" basedir=".">
+	<property name="tomcat.home" value="C:\apache-tomcat-8\apache-tomcat-8.0.21" />
+	<property name="buildmsg" value="Building the GDQS Project Module" />
+	<target name="build">
+		<antcall target="tomcat-stop" />
+		<sleep seconds="5" />
+		<antcall target="copyjars" />
+		<antcall target="tomcat-start" />
+	</target>
+	
+	<target name="tomcat-stop">
+		<exec executable="C:\apache-tomcat-8\apache-tomcat-8.0.21\bin\shutdown.bat" />
+	</target>
+	
+	<target name="tomcat-start">
+		<exec executable="C:\apache-tomcat-8\apache-tomcat-8.0.21\bin\startup.bat" />
+	</target>
+
+	<target name="copyjars">
+		<copy file="./target/gdqs-0.0.1-SNAPSHOT.jar" todir="${tomcat.home}/webapps/geoserver/WEB-INF/lib" />
+	</target>
+</project>

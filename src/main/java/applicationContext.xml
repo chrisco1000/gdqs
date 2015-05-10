@@ -1,0 +1,10 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+	<bean id="projectListPage" class="org.geoserver.web.MenuPageInfo">
+		<property name="id" value="projectListPage"/>
+		<property name="titleKey" value="ProjectListPage.page.title"/>
+		<property name="descriptionKey" value="ProjectListPage.page.description"/>
+		<property name="componentClass" value="ext.gdqs.project.ProjectListPage"/>
+	</bean>
+</beans>

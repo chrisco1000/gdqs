@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+	<wicket:extend>
+		<form wicket:id="form">
+			<ul>
+				<li>
+					<label for="name">Project Name</label>
+					<input wicket:id="name" type="text" size="20"/>
+				</li>
+				<li>
+					<label for="uri"><wicket:message key="namespaceURI">Namespace URI</wicket:message></label>
+					<input wicket:id="uri" type="text" size="60"/>
+					<div class="instruct"><wicket:message key="namespaceUriAssocWithWorkspace">The namespace uri associated with this Project</wicket:message></div>
+				</li>
+				<li class="button-group selfclear">
+					<a href="#" wicket:id="submit"><wicket:message key="submit">Submit</wicket:message></a>
+					<a href="#" wicket:id="submit"><wicket:message key="cancel">Cancel</wicket:message></a>
+				</li>
+			</ul>
+		</form>
+	</wicket:extend>
+</body>
+</html>
