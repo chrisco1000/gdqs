@@ -5,6 +5,7 @@ public class ProjectRequest {
 	private Object modelObject;
 	private String nsiURI;
 	private String folderBasePath;
+	private String projStatus;
 
 	public Object getModelObject() {
 		return modelObject;
@@ -29,5 +30,11 @@ public class ProjectRequest {
 	}
 	public void setFolderBasePath(String folderBasePath) {
 		this.folderBasePath = folderBasePath;
+	}
+	public String getProjStatus() {
+		return projStatus;
+	}
+	public void setProjStatus(String projStatus) {
+		this.projStatus = projStatus;
 	}
 }

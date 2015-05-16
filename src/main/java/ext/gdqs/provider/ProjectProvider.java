@@ -23,7 +23,7 @@ public class ProjectProvider extends WorkspaceProvider {
 		
 		for (int ii = 0;ii < gdqsProjects.size();ii++){
 			MetadataMap mm = gdqsProjects.get(ii).getMetadata();
-			if (mm.containsKey(ProjectHelper.PROJECT_MARKER) && mm.get(ProjectHelper.PROJECT_MARKER).equals("true")){
+			if (mm.containsKey(ProjectHelper.PROJECT_MARKER_KEY) && mm.get(ProjectHelper.PROJECT_MARKER_KEY).equals("true")){
 				resultProjects.add(gdqsProjects.get(ii));
 			}
 		}

@@ -1,8 +1,12 @@
 package ext.gdqs.project;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,9 +29,11 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.DownloadLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -65,10 +71,15 @@ import org.geoserver.web.wicket.URIValidator;
 import org.geoserver.web.wicket.XMLNameValidator;
 import org.geotools.util.logging.Logging;
 
+import ext.gdqs.util.ProjectHelper;
+
 @SuppressWarnings("rawtypes")
 public class ProjectInfoPage extends GeoServerSecuredPage {
 	
     private static final Logger LOGGER = Logging.getLogger("org.geoserver.web.data.workspace");
+    
+    // Map of values for the table
+    private final Map<String,String> values = new HashMap<String,String>();
     
 	IModel wsModel;
     IModel nsModel;
@@ -77,6 +88,10 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
     SettingsPanel settingsPanel;
     ServicesPanel servicesPanel;
     GeoServerDialog dialog;
+    WorkspaceInfo wsi;
+    
+    //MetadataMap keys for ProjectInfo table
+    //private static final String KEY_
     
     /**
      * Uses a "name" parameter to locate the workspace
@@ -84,7 +99,7 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
      */
     public ProjectInfoPage(PageParameters parameters) {
         String wsName = parameters.getString("name");
-        WorkspaceInfo wsi = getCatalog().getWorkspaceByName(wsName);
+        wsi = getCatalog().getWorkspaceByName(wsName);
         
         if(wsi == null) {
             error(new ParamResourceModel("WorkspaceEditPage.notFound", this, wsName).getString());
@@ -97,12 +112,12 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
     
     public ProjectInfoPage(WorkspaceInfo ws) {
         init(ws);
+        
+        updateModel();
     }
     
     @SuppressWarnings("unchecked")
 	private void init(WorkspaceInfo ws) {
-        //defaultWs = ws.getId().equals(getCatalog().getDefaultWorkspace().getId());
-        
         wsModel = new WorkspaceDetachableModel( ws );
 
         NamespaceInfo ns = getCatalog().getNamespaceByPrefix( ws.getName() );
@@ -124,7 +139,7 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
             }
         };
         add(form);
-
+        
         //check for full admin, we don't allow workspace admins to change all settings
         boolean isFullAdmin = isAuthenticatedAsAdmin();
         
@@ -145,9 +160,21 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
         form.add(settingsPanel = new SettingsPanel("settings", wsModel));
         form.add(new HelpLink("settingsHelp").setDialog(dialog));
 
-        //local services
-        form.add(servicesPanel = new ServicesPanel("services", wsModel));
-        form.add(new HelpLink("servicesHelp").setDialog(dialog));
+        form.add(new DownloadLink("qgisdownload", new AbstractReadOnlyModel(){
+                    private static final long serialVersionUID = 1L;
+                    @Override
+                    public File getObject()
+                    {
+                        File qgisProject;
+                        try{
+                        	qgisProject = ProjectHelper.createQgisProject(wsModel);
+                        }
+                        catch (IOException e){
+                            throw new RuntimeException(e);
+                        }
+                        return qgisProject;
+                    }
+                }));
 
         SubmitLink submit = new SubmitLink("save");
         form.add(submit);
@@ -560,5 +587,9 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
 
             return services;
         }
+    }
+    
+    private void updateModel(){
+    	
     }
 }

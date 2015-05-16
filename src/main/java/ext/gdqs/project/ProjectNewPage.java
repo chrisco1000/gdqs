@@ -6,11 +6,13 @@ import java.util.Properties;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.validation.IValidatable;
 import org.apache.wicket.validation.validator.StringValidator;
 import org.geoserver.catalog.WorkspaceInfo;
@@ -25,6 +27,8 @@ import ext.gdqs.util.ProjectHelper;
 public class ProjectNewPage extends GeoServerSecuredPage {
 	Form form;
 	TextField nsFieldUri;
+	
+	private String selected = "Planning";
 
 	@SuppressWarnings({ "serial", "unchecked" })
 	public ProjectNewPage() throws IOException{
@@ -48,8 +52,15 @@ public class ProjectNewPage extends GeoServerSecuredPage {
 	                //TODO: set the response page to be the edit 
 	                doReturn(ProjectListPage.class);
 			}
+				
 		};	
 		add(form);
+
+		//Dropdown choice for project status
+		DropDownChoice<String> projStatus = new DropDownChoice<String>(
+				"projstatus",new PropertyModel<String>(this,"selected"),ProjectHelper.PROJ_STATUS
+		);
+		form.add(projStatus);
 		
 		TextField<String> projNameTF = new TextField<String>("name");
 		projNameTF.setRequired(true);
@@ -79,5 +90,6 @@ public class ProjectNewPage extends GeoServerSecuredPage {
 			};
 		};
 		projNameTF.add(canLink);
+		
 	}
 }

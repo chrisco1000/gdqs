@@ -3,10 +3,6 @@ package ext.gdqs.project;
 import static org.geoserver.web.data.workspace.WorkspaceProvider.DEFAULT;
 import static org.geoserver.web.data.workspace.WorkspaceProvider.NAME;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Set;
-
 import ext.gdqs.project.ProjectNewPage;
 import ext.gdqs.provider.ProjectProvider;
 
@@ -16,13 +12,10 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.panel.Fragment;
 import org.apache.wicket.model.IModel;
-import org.geoserver.catalog.MetadataMap;
 import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.web.CatalogIconFactory;
 import org.geoserver.web.GeoServerSecuredPage;
 import org.geoserver.web.data.SelectionRemovalLink;
-import org.geoserver.web.data.workspace.WorkspaceEditPage;
-import org.geoserver.web.data.workspace.WorkspaceProvider;
 import org.geoserver.web.spring.security.GeoServerSession;
 import org.geoserver.web.wicket.GeoServerDialog;
 import org.geoserver.web.wicket.GeoServerTablePanel;
