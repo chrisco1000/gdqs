@@ -12,16 +12,18 @@ import java.util.Map;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.file.Files;
 import org.geoserver.catalog.Catalog;
+import org.geoserver.catalog.MetadataMap;
 import org.geoserver.catalog.NamespaceInfo;
 import org.geoserver.catalog.WorkspaceInfo;
 import org.geoserver.web.GeoServerApplication;
+
 import ext.gdqs.dataobject.ProjectRequest;
 
 public class ProjectHelper {
 	public static final String PROJECT_MARKER_KEY = "GDQSProject";
 	public static final String PROJECT_STATUS_KEY = "ProjectStatus";
 	
-	public static final Map<String,String> PROJECT_FIELD_LIST = new HashMap<String,String>(){
+	public static final Map<String,String> PROJECT_FIELD_LABELS = new HashMap<String,String>(){
 		private static final long serialVersionUID = 1L;
 		{
 			put(PROJECT_MARKER_KEY,"GDQS Project");
@@ -83,11 +85,12 @@ public class ProjectHelper {
 	 * 
 	 */
 	public static File createQgisProject(IModel wsModel) throws IOException{
+		WorkspaceInfo workspaceInfo = (WorkspaceInfo) wsModel.getObject();
+		
 		File qgisProject;
 		
 		qgisProject = File.createTempFile("GDQS_Project", ".qgs");
 
-		WorkspaceInfo workspaceInfo = (WorkspaceInfo) wsModel.getObject();
 		StringBuffer qgis = new StringBuffer();
 		qgis.append("<!DOCTYPE qgis PUBLIC 'http://mrcc.com/qgis.dtd' 'SYSTEM'>\n");
 		qgis.append("<qgis projectname=\"\" version=\"2.8.1-Wien\">\n");
@@ -100,5 +103,19 @@ public class ProjectHelper {
         Files.writeTo(qgisProject, data);
         
         return qgisProject;
+	}
+	
+	// Get the project metadata with keys
+	public static Map<String,String> getProjectTableData(IModel wsModel){
+		Map<String,String> metaMap = new HashMap<String,String>();
+		
+		WorkspaceInfo wsi = (WorkspaceInfo) wsModel.getObject();
+		
+		// Get the Project MetadataMap
+		MetadataMap map = wsi.getMetadata();
+		metaMap.put(PROJECT_MARKER_KEY,map.get(PROJECT_MARKER_KEY).toString());
+		//metaMap.put(PROJECT_STATUS_KEY,map.get(PROJECT_STATUS_KEY).toString());
+		
+		return metaMap;
 	}
 }
