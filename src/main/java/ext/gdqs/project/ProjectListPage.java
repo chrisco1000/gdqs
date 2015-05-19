@@ -30,7 +30,6 @@ import org.springframework.security.core.Authentication;
  * This is the main GDQS project list page for the logged in user.
  */
 public class ProjectListPage extends GeoServerSecuredPage {
-    //WorkspaceProvider provider = new WorkspaceProvider();
 	ProjectProvider provider = new ProjectProvider();
     GeoServerTablePanel<WorkspaceInfo> table;
     GeoServerDialog dialog;
