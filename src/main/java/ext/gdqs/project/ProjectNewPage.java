@@ -28,7 +28,7 @@ public class ProjectNewPage extends GeoServerSecuredPage {
 	Form form;
 	TextField nsFieldUri;
 	
-	private String selected = "Planning";
+	private String selected = "No Status";
 
 	@SuppressWarnings({ "serial", "unchecked" })
 	public ProjectNewPage() throws IOException{
@@ -37,6 +37,11 @@ public class ProjectNewPage extends GeoServerSecuredPage {
 		
 		final Properties gdqsProps = new Properties();
 		gdqsProps.load(getClass().getClassLoader().getResourceAsStream("gdqs.properties"));		
+
+		//Dropdown choice for project status
+		final DropDownChoice<String> projStatus = new DropDownChoice<String>(
+				"projstatus",new PropertyModel<String>(this,"selected"),ProjectHelper.PROJ_STATUS
+		);
 		
 		form = new Form("form", new CompoundPropertyModel(wsInfo)){
 				@Override
@@ -45,21 +50,22 @@ public class ProjectNewPage extends GeoServerSecuredPage {
 					newProj.setModelObject(form.getModelObject());
 					newProj.setNsiURI(nsFieldUri.getDefaultModelObjectAsString());
 					newProj.setFolderBasePath(gdqsProps.getProperty("filesystempath"));
+					newProj.setProjStatus(selected);
 
-					String projMessage = ProjectHelper.createProject(newProj);
-					LOGGER.info("Project create message>>>" + projMessage + "<<<");
-					
-	                //TODO: set the response page to be the edit 
-	                doReturn(ProjectListPage.class);
+					String projMessage;
+					try {
+						projMessage = ProjectHelper.createProject(newProj);
+						LOGGER.info("Project create message>>>" + projMessage + "<<<");
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					doReturn(ProjectListPage.class);
 			}
 				
 		};	
 		add(form);
 
-		//Dropdown choice for project status
-		DropDownChoice<String> projStatus = new DropDownChoice<String>(
-				"projstatus",new PropertyModel<String>(this,"selected"),ProjectHelper.PROJ_STATUS
-		);
 		form.add(projStatus);
 		
 		TextField<String> projNameTF = new TextField<String>("name");

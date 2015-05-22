@@ -15,6 +15,7 @@ import org.geoserver.catalog.Catalog;
 import org.geoserver.catalog.MetadataMap;
 import org.geoserver.catalog.NamespaceInfo;
 import org.geoserver.catalog.WorkspaceInfo;
+import org.geoserver.config.GeoServer;
 import org.geoserver.web.GeoServerApplication;
 
 import ext.gdqs.dataobject.ProjectRequest;
@@ -35,7 +36,7 @@ public class ProjectHelper {
 			"Planning","In Work","Completed"
 	});
 	
-	public static String createProject(ProjectRequest req){
+	public static String createProject(ProjectRequest req) throws Exception{
 		String message = "";
 		
 		GeoServerApplication gsa = GeoServerApplication.get();
@@ -55,6 +56,9 @@ public class ProjectHelper {
 			
 			cat.add(wsi);
 			cat.add(nsi);
+			
+			
+			GeoServerApplication.get().getBeanOfType(GeoServer.class).reload();
 		}
 		
 		createProjectFolder(req.getFolderBasePath(),wsi.getName());
@@ -114,7 +118,7 @@ public class ProjectHelper {
 		// Get the Project MetadataMap
 		MetadataMap map = wsi.getMetadata();
 		metaMap.put(PROJECT_MARKER_KEY,map.get(PROJECT_MARKER_KEY).toString());
-		//metaMap.put(PROJECT_STATUS_KEY,map.get(PROJECT_STATUS_KEY).toString());
+		metaMap.put(PROJECT_STATUS_KEY,map.get(PROJECT_STATUS_KEY).toString());
 		
 		return metaMap;
 	}

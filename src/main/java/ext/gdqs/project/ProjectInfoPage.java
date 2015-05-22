@@ -152,7 +152,7 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
         Iterator<String> metaIter = metaKeys.iterator();
         while(metaIter.hasNext()){
         	String key = metaIter.next();
-        	LOGGER.info("Key: " + key + " " + values.get(key));
+        	//LOGGER.info("Key: " + key + " " + values.get(key));
 
     		add(new Label(key,ProjectHelper.PROJECT_FIELD_LABELS.get(key)));
     		add(new Label(key + "_val",values.get(key)));
@@ -163,7 +163,7 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
         //local settings
         form.add(new HelpLink("settingsHelp").setDialog(dialog));
 
-        form.add(new DownloadLink("qgisdownload", new AbstractReadOnlyModel(){
+        add(new DownloadLink("qgisdownload", new AbstractReadOnlyModel(){
                     private static final long serialVersionUID = 1L;
                     @Override
                     public File getObject()

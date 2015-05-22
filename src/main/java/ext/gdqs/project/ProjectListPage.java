@@ -38,7 +38,6 @@ public class ProjectListPage extends GeoServerSecuredPage {
 	public ProjectListPage(){
 		// Get the current username
 		String currentUser = getUsername();
-		add(new Label("projectlistlabel","This page will list the projects the user is working on: " + currentUser));
 		
         // the middle table
         add(table = new GeoServerTablePanel<WorkspaceInfo>("table", provider, true) {
@@ -74,7 +73,6 @@ public class ProjectListPage extends GeoServerSecuredPage {
         // the confirm dialog
         add(dialog = new GeoServerDialog("dialog"));
         setHeaderPanel(headerPanel());
-        
 	}
 
 	private String getUsername(){

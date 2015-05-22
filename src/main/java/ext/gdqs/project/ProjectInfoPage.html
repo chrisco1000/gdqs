@@ -1,11 +1,5 @@
 <html xmlns:wicket="http://wicket.apache.org/">
-<wicket:head>
-    <style type="text/css">
-       #tableBody fieldset.leftwise, #tableBody fieldset.rightwise {
-         width: 40%;
-       }
-     </style>
-</wicket:head>
+<head></head>
 <body>
 <wicket:extend>
 <form wicket:id="form">
@@ -17,12 +11,6 @@
     <li>
       <label for="uri"><wicket:message key="namespaceURI">Namespace URI</wicket:message></label>
       <input wicket:id="uri" id="uri" type="text" class="text" readonly/>
-     	<div class="instruct"><wicket:message key="namespaceUriAssocWithWorkspace">The namespace uri associated with this workspace</wicket:message></div>
-    </li>
-    <li class="button-group selfclear">
-      <a href="#" wicket:id="qgisdownload">Download QGIS Project</a>
-      <!-- <a href="#" wicket:id="save"><wicket:message key="save">Save</wicket:message></a>
-      <a href="#" wicket:id="cancel"><wicket:message key="cancel">Cancel</wicket:message></a> -->
     </li>
   </ul>
 </form>
@@ -39,6 +27,11 @@
 	    <tr class="odd">
 	    	<td wicket:id="GDQSProject"></td>
 	    	<td wicket:id="GDQSProject_val"></td>
+	    	<td><a href="#" wicket:id="qgisdownload">Download QGIS Project</a></td>
+	    </tr>
+	    <tr class="even">
+	    	<td wicket:id="ProjectStatus"></td>
+	    	<td wicket:id="ProjectStatus_val"></td>
 	    	<td class="actions"></td>
 	    </tr>		
   	</tbody>
