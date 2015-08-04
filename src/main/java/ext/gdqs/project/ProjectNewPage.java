@@ -57,7 +57,6 @@ public class ProjectNewPage extends GeoServerSecuredPage {
 						projMessage = ProjectHelper.createProject(newProj);
 						LOGGER.info("Project create message>>>" + projMessage + "<<<");
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					doReturn(ProjectListPage.class);

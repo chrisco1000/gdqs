@@ -77,6 +77,7 @@ import org.geoserver.web.wicket.URIValidator;
 import org.geoserver.web.wicket.XMLNameValidator;
 import org.geotools.util.logging.Logging;
 
+import ext.gdqs.store.StoreNewPage;
 import ext.gdqs.util.ProjectHelper;
 
 @SuppressWarnings("rawtypes")
@@ -148,11 +149,11 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
         // Map of values for the table
         Map<String,String> values = ProjectHelper.getProjectTableData(wsModel);
         
+        //Iterate the MetadataMap keys, create wicket Label from meta value and display label
         Set<String> metaKeys = values.keySet();
         Iterator<String> metaIter = metaKeys.iterator();
         while(metaIter.hasNext()){
         	String key = metaIter.next();
-        	//LOGGER.info("Key: " + key + " " + values.get(key));
 
     		add(new Label(key,ProjectHelper.PROJECT_FIELD_LABELS.get(key)));
     		add(new Label(key + "_val",values.get(key)));
@@ -178,7 +179,12 @@ public class ProjectInfoPage extends GeoServerSecuredPage {
                         return qgisProject;
                     }
                 }));
+        
+        PageParameters params = new PageParameters();
+        params.add("GDQSProject", ws.getName());
 
+        add(new BookmarkablePageLink("addStore",StoreNewPage.class,params));
+        
         SubmitLink submit = new SubmitLink("save");
         form.add(submit);
         form.setDefaultButton(submit);

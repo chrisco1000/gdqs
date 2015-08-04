@@ -1,24 +1,10 @@
 package ext.gdqs.dataobject;
 
-public class ProjectRequest {
-	private String gdqsName;
-	private Object modelObject;
+public class ProjectRequest extends GenericRequest{
 	private String nsiURI;
 	private String folderBasePath;
 	private String projStatus;
 
-	public Object getModelObject() {
-		return modelObject;
-	}
-	public void setModelObject(Object modelObject) {
-		this.modelObject = modelObject;
-	}
-	public String getGdqsName() {
-		return gdqsName;
-	}
-	public void setGdqsName(String gdqsName) {
-		this.gdqsName = gdqsName;
-	}
 	public String getNsiURI() {
 		return nsiURI;
 	}

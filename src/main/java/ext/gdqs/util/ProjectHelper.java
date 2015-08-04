@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import ext.gdqs.dataobject.ProjectRequest;
 public class ProjectHelper {
 	public static final String PROJECT_MARKER_KEY = "GDQSProject";
 	public static final String PROJECT_STATUS_KEY = "ProjectStatus";
+	public static final String STORE_SET_KEY = "StoreSet";
 	
 	public static final Map<String,String> PROJECT_FIELD_LABELS = new HashMap<String,String>(){
 		private static final long serialVersionUID = 1L;
@@ -49,6 +51,7 @@ public class ProjectHelper {
 		} else {
 			wsi.getMetadata().put(PROJECT_MARKER_KEY, true);
 			wsi.getMetadata().put(PROJECT_STATUS_KEY, req.getProjStatus());
+			wsi.getMetadata().put(STORE_SET_KEY, new ArrayList<String>());
 			
 			NamespaceInfo nsi = cat.getFactory().createNamespace();
 			nsi.setPrefix(wsi.getName());
@@ -57,7 +60,7 @@ public class ProjectHelper {
 			cat.add(wsi);
 			cat.add(nsi);
 			
-			
+			// Reload the application to get the updated data directory
 			GeoServerApplication.get().getBeanOfType(GeoServer.class).reload();
 		}
 		
